@@ -1,0 +1,53 @@
+type Site {
+  id: ID!
+  name: String!
+  rtus: [Rtu]
+}
+
+input CreateSiteInput {
+  name: String!
+}
+
+type Rtu {
+  id: ID!
+  serialNumber: String
+  attachStatus: AttachStatus
+  model: Model!
+  site: Site
+}
+
+input CreateRtuInput {
+  name: String!
+  siteId: ID!
+}
+
+input AttachRtuInput {
+  rtuId: ID!
+}
+
+enum AttachStatus {
+  ATTACHED
+  UNATTACHED
+}
+
+enum Model {
+  RTU2
+  FG750
+  OTH7000
+}
+
+type Query {
+  sites: [Site]
+  rtus: [Rtu]
+}
+
+type Mutation {
+  createSite(input: CreateSiteInput!): Site
+  createRtu(input: CreateRtuInput!): Rtu
+  attachRtu(input: AttachRtuInput!): Rtu
+}
+
+type Subscription {
+  rtuCreated(rtuId: ID!): Rtu
+  rtus: [Rtu]
+}
